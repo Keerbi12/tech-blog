@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const e = require('express');
-const { User, Blog, Stats, Comment, Workout, Exercise, hasLiked} = require('../models');
+const { User, Blog, Comment } = require('../models');
 const auth = require('../utils/auth');
 const correctUser = require('../utils/correctUser');
 
@@ -94,33 +94,15 @@ router.get('/blog/:id', auth,  async (req, res) => {
     
         const blog = blogData.get({ plain: true });
 
-        const liked = await hasLiked.findAll({
-            where: {
-                post_id: req.params.id,
-                user_id: req.session.user_id
-            }
-        })
-
-        const haveLiked = liked.map((like) => like.get({ plain: true}))
-
         let allowEdit;
         if (blog.user_id == req.session.user_id) {
             allowEdit = true;
         } else {
             allowEdit = false;
         }
-
-        let allowLike;
-        if (haveLiked.length){
-            allowLike = false
-        }
-        else{
-            allowLike = true
-        }
     
         res.render('blog', {
           ...blog,
-          allowLike,
           logged_in: req.session.logged_in,
           user_id: req.session.user_id,
           allowEdit
@@ -135,9 +117,6 @@ router.get('/user/:id', auth,  async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id, {
             include: [
-                {
-                    model: Stats
-                },
                 {
                     model: Blog
                 },
@@ -202,120 +181,6 @@ router.get('/newBlog', auth,  async (req, res) => {
     res.render('newBlog', {
         logged_in: req.session.logged_in,
         user_id: req.session.user_id
-    })
-})
-
-router.get('/userWorkouts/:id', auth,  async (req, res) => {
-    try {
-        const userWorkouts = await Workout.findAll({
-            where: {
-                user_id: req.params.id
-            },
-            order: [['id', 'DESC']]
-        })
-        const id = req.params.id
-    
-        const workouts = userWorkouts.map((workout) => workout.get({ plain: true}));
-
-
-        let allowWorkoutEdit;
-        if (req.params.id == req.session.user_id) {
-            allowWorkoutEdit = true;
-        } else {
-            allowWorkoutEdit = false;
-        }
-
-        res.render('userWorkouts', {
-          workouts,
-          id,
-          allowWorkoutEdit,
-          logged_in: req.session.logged_in,
-          user_id: req.session.user_id
-        });
-      } catch (err) {
-        res.status(500).json(err);
-    }
-})
-
-router.get('/exercises/:id', auth,  async (req, res) => {
-    try {
-        const workoutExercises = await Exercise.findAll({
-            where: {
-                workout_id: req.params.id
-            },
-            include: {
-                model: Workout,
-            },
-        })
-
-        const workouts = await Workout.findAll({
-            where: {
-                id: req.params.id
-            },
-            include: {
-                model: User,
-            }
-        })
-
-        const id = req.params.id
-
-        const workout = workouts.map((theWorkout) => theWorkout.get({ plain: true}));
-    
-        const exercises = workoutExercises.map((exercise) => exercise.get({ plain: true}));
-        console.log(workout[0].user_id)
-
-        let allowExerciseEdit;
-        let showUp;
-        if (workout[0].user_id === req.session.user_id){
-            allowExerciseEdit = true;
-            showUp = true
-        } else {
-            allowExerciseEdit = false;
-            showUp = false
-        }
-        res.render('exercises', {
-          exercises,
-          id,
-          allowExerciseEdit,
-          showUp,
-          logged_in: req.session.logged_in,
-          user_id: req.session.user_id
-        });
-      } catch (err) {
-        res.status(500).json(err);
-    }
-})
-
-router.get('/newWorkout', auth,  async (req, res) => {
-    try {
-        const workoutExercises = await Exercise.findAll()
-    
-        const exercises = workoutExercises.map((exercise) => exercise.get({ plain: true}));
-
-        res.render('newWorkout', {
-            exercises,
-            logged_in: req.session.logged_in,
-            user_id: req.session.user_id
-        });
-      } catch (err) {
-        res.status(500).json(err);
-      }
-})
-
-router.get('/editStats/:id', auth, correctUser,  async (req, res) => {
-    const userStats = await Stats.findAll({
-        where: {
-            user_id: req.params.id,
-        }
-    })
-
-    const id = req.params.id
-    const statsy = userStats.map((staty) => staty.get({ plain: true } ));
-    res.render('editStats', {
-        id,
-        statsy,
-        logged_in: req.session.logged_in,
-        user_id: req.session.user_id,
     })
 })
 

@@ -18,11 +18,6 @@ Blog.init(
       description: {
         type: DataTypes.STRING,
       },
-      likes: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
-      },
       date_created: {
         type: DataTypes.DATE,
         allowNull: false,

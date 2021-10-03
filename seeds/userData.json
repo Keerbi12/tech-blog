@@ -1,32 +1,20 @@
 [
     {
-      "username": "ChadChapMan",
-      "email": "chad@example.com",
-      "password": "password",
-      "picture": "/Images/avatars/43.svg"
-    },
-    {
-        "username": "BicepBilly",
-        "email": "billy@example.com",
-        "password": "password",
-        "picture": "/Images/avatars/44.svg"
-    },
-    {
-        "username": "AbodominAbreham",
-        "email": "abreham@example.com",
-        "password": "password",
+        "username": "TechWizOne",
+        "email": "Tech1@example.com",
+        "password": "password1",
         "picture": "/Images/avatars/45.svg"
     },
     {
-        "username": "DeadliftDavid",
-        "email": "david@example.com",
-        "password": "password",
+        "username": "TechWizTwo",
+        "email": "Tech2@example.com",
+        "password": "password2",
         "picture": "/Images/avatars/38.svg"
     },
     {
-        "username": "MaxSquatSpencer",
-        "email": "spencer@example.com",
-        "password": "password",
+        "username": "TechWizThree",
+        "email": "Tech3@example.com",
+        "password": "password3",
         "picture": "/Images/avatars/37.svg"
     }
   ]

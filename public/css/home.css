@@ -1,3 +1,9 @@
+.tech-blog-title {
+  font-size: 50px;
+  color: white;
+  padding: 20px;
+}
+
 .blog-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;

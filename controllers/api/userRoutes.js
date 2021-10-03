@@ -16,22 +16,10 @@ router.post('/', async (req, res) => {
         picture: `/Images/avatars/${number}.svg`
       });
 
-      const newStats = await Stats.create({
-        age: 0,
-        description: "Description of yourself",
-        height: 0.00,
-        weight: 0,
-        max_bench: 0,
-        max_deadlift: 0,
-        max_squat: 0,
-        user_id: userData.id
-    })
-  
       req.session.save(() => {
         req.session.user_id = userData.id;
         req.session.logged_in = true;
   
-        res.status(200).json(newStats);
       });
     } catch (err) {
       res.status(400).json(err);
