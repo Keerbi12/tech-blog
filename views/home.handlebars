@@ -1,0 +1,21 @@
+<main class="body feed"> 
+    <p class="heading">Blogs</p>
+    <div class="blog-layout">
+      {{#each blogs as |blog| }}
+    
+      <section class="individual-blog" onclick="location.href='/blog/{{blog.id}}'">
+        
+        <h1 class="blog-heading">{{blog.title}}</h1>
+        <div class="blog-para datey">
+          <p>{{format_time blog.date_created}} | <a class="aStyle" href="/user/{{blog.user.id}}">{{blog.user.username}}</a></p>
+        </div>
+        <div>
+          <p class="lil-description">{{blog.description}}</p>
+        </div>
+        
+      </section>
+      
+    
+    {{/each}}
+    </div>
+  </main>
